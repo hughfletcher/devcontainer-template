@@ -1,0 +1,33 @@
+{
+  "name": "Universal Development with Claude Code",
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+
+  "postCreateCommand": ".devcontainer/setup.sh",
+
+  "mounts": [
+    "source=vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
+    "source=composer-cache,target=/home/vscode/.cache/composer,type=volume"
+  ],
+
+  "remoteUser": "vscode"
+}
