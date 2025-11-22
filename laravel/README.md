@@ -111,6 +111,9 @@ Update your project's `.env`:
 # DevContainer Framework
 DEVCONTAINER_FRAMEWORK=laravel
 
+# DevContainer Options
+# SKIP_COMPOSE_UP=true  # Uncomment to prevent auto-starting containers on devcontainer start
+
 # Database (choose one)
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -134,8 +137,7 @@ MAIL_HOST=mailhog
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 
-# Docker Compose
-COMPOSE_PROJECT_NAME=myapp
+# Docker Compose Ports
 APP_PORT=8080
 VITE_PORT=5173
 ```
