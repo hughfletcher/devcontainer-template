@@ -22,11 +22,13 @@
     }
   },
 
-  "postCreateCommand": ".devcontainer/setup.sh",
+  "postCreateCommand": "bash setup.sh",
 
   "mounts": [
     "source=vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
-    "source=composer-cache,target=/home/vscode/.cache/composer,type=volume"
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.devcontainer-shared/composer,target=/home/vscode/.cache/composer,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.devcontainer-shared/claude,target=/home/vscode/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.devcontainer-shared/docker,target=/var/lib/docker,type=bind,consistency=cached"
   ],
 
   "remoteUser": "vscode"

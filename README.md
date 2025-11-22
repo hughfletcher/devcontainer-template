@@ -169,6 +169,19 @@ Users can then use: `DEVCONTAINER_FRAMEWORK=django`
 - VS Code with Dev Containers extension
 - 4GB+ RAM recommended
 
+## Shared Resources
+
+This devcontainer uses shared host folders for persistence across all projects:
+
+- `~/.devcontainer-shared/docker` - Docker images (shared across all devcontainers)
+- `~/.devcontainer-shared/claude` - Claude authentication (login once, use everywhere)
+- `~/.devcontainer-shared/composer` - Composer cache (faster PHP installs)
+
+**Benefits:**
+- Download Docker images once, use in all projects
+- Authenticate with Claude Code once, works in all projects
+- Faster rebuilds and container starts
+
 ## Benefits
 
 1. **Modular**: Only load what you need
