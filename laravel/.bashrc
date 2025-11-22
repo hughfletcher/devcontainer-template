@@ -11,13 +11,22 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}Laravel development environment loaded!${NC}"
 
-# Get database connection from .env
+# Get database connection from Laravel .env
 DB_CONNECTION="mysql"
-if [ -f "/workspace/.env" ]; then
-    ENV_DB_CONNECTION=$(grep -E "^DB_CONNECTION=" /workspace/.env 2>/dev/null | cut -d '=' -f2 | tr -d '"' | tr -d "'" | xargs)
-    if [ -n "$ENV_DB_CONNECTION" ]; then
-        DB_CONNECTION="$ENV_DB_CONNECTION"
-    fi
+DB_USERNAME="laravel"
+DB_PASSWORD="password"
+DB_DATABASE="laravel"
+
+if [ -f "/workspace/src/.env" ]; then
+    ENV_DB_CONNECTION=$(grep -E "^DB_CONNECTION=" /workspace/src/.env 2>/dev/null | cut -d '=' -f2 | tr -d '"' | tr -d "'" | xargs)
+    ENV_DB_USERNAME=$(grep -E "^DB_USERNAME=" /workspace/src/.env 2>/dev/null | cut -d '=' -f2 | tr -d '"' | tr -d "'" | xargs)
+    ENV_DB_PASSWORD=$(grep -E "^DB_PASSWORD=" /workspace/src/.env 2>/dev/null | cut -d '=' -f2 | tr -d '"' | tr -d "'" | xargs)
+    ENV_DB_DATABASE=$(grep -E "^DB_DATABASE=" /workspace/src/.env 2>/dev/null | cut -d '=' -f2 | tr -d '"' | tr -d "'" | xargs)
+
+    [ -n "$ENV_DB_CONNECTION" ] && DB_CONNECTION="$ENV_DB_CONNECTION"
+    [ -n "$ENV_DB_USERNAME" ] && DB_USERNAME="$ENV_DB_USERNAME"
+    [ -n "$ENV_DB_PASSWORD" ] && DB_PASSWORD="$ENV_DB_PASSWORD"
+    [ -n "$ENV_DB_DATABASE" ] && DB_DATABASE="$ENV_DB_DATABASE"
 fi
 
 # Laravel Artisan Command
@@ -47,12 +56,12 @@ npm() {
 # Database Connection
 db() {
     if [ "$DB_CONNECTION" = "mysql" ]; then
-        docker-compose exec mysql mysql -u${DB_USERNAME:-laravel} -p${DB_PASSWORD:-password} ${DB_DATABASE:-laravel}
+        docker-compose exec mysql mysql -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE}
     elif [ "$DB_CONNECTION" = "pgsql" ]; then
-        docker-compose exec postgres psql -U ${DB_USERNAME:-laravel} ${DB_DATABASE:-laravel}
+        docker-compose exec postgres psql -U ${DB_USERNAME} ${DB_DATABASE}
     else
         echo -e "${RED}Unknown DB_CONNECTION: $DB_CONNECTION${NC}"
-        echo "Set DB_CONNECTION to 'mysql' or 'pgsql' in your .env file"
+        echo "Set DB_CONNECTION to 'mysql' or 'pgsql' in src/.env file"
         return 1
     fi
 }

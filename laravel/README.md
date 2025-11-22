@@ -48,19 +48,49 @@ Auto-loaded when `DEVCONTAINER_FRAMEWORK=laravel` is set:
 #### Testing
 - `test [args]` - Run tests (auto-detects Pest or PHPUnit)
 
+## Project Structure
+
+This configuration uses a `src/` folder for Laravel:
+
+```
+my-laravel-project/
+  ├── .env                    ← DevContainer config (DEVCONTAINER_FRAMEWORK, SKIP_COMPOSE_UP)
+  ├── .devcontainer/
+  ├── docker/
+  │   └── app/Dockerfile      ← Apache + PHP
+  ├── docker-compose.yml
+  └── src/                    ← Laravel lives here
+      ├── .env                ← Laravel config (DB_*, APP_KEY, etc.)
+      ├── app/
+      ├── public/
+      └── composer.json
+```
+
 ## Setup Instructions
 
-### 1. Use the Sample Docker Compose (Optional)
+### 1. Create Laravel Project
 
-If you don't have a docker-compose.yml yet:
+```bash
+# Create project root
+mkdir my-laravel-project
+cd my-laravel-project
+
+# Install Laravel in src/ folder
+composer create-project laravel/laravel src
+
+# Copy devcontainer
+cp -r /path/to/devcontainer-template .devcontainer
+```
+
+### 2. Use the Sample Docker Compose
 
 ```bash
 cp .devcontainer/laravel/sample-docker-compose.yml docker-compose.yml
 ```
 
-**Note:** You'll need to create `docker/app/Dockerfile` for the PHP+Apache container. See below.
+**Note:** The docker-compose.yml mounts `./src` as `/var/www/html` in containers.
 
-### 2. Create PHP Application Dockerfile
+### 3. Create PHP Application Dockerfile
 
 Create `docker/app/Dockerfile`:
 
@@ -103,16 +133,31 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN chown -R www-data:www-data /var/www/html
 ```
 
-### 3. Configure Your Laravel .env
+### 4. Configure Environment Variables
 
-Update your project's `.env`:
+**Root `.env`** (DevContainer configuration):
 
 ```bash
-# DevContainer Framework
+# .env (in project root)
 DEVCONTAINER_FRAMEWORK=laravel
 
 # DevContainer Options
-# SKIP_COMPOSE_UP=true  # Uncomment to prevent auto-starting containers on devcontainer start
+# SKIP_COMPOSE_UP=true  # Uncomment to skip auto-starting containers
+
+# Docker Compose Ports
+APP_PORT=8080
+VITE_PORT=5173
+```
+
+**`src/.env`** (Laravel configuration):
+
+```bash
+# src/.env (Laravel's .env file)
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8080
 
 # Database (choose one)
 DB_CONNECTION=mysql
@@ -130,19 +175,18 @@ DB_PASSWORD=password
 # Redis
 REDIS_HOST=redis
 REDIS_PORT=6379
+REDIS_PASSWORD=null
 
 # Mail (Mailhog)
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
 MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
-
-# Docker Compose Ports
-APP_PORT=8080
-VITE_PORT=5173
 ```
 
-### 4. Customize the Stack (Optional)
+### 5. Customize the Stack (Optional)
 
 **Using only MySQL?** Comment out the postgres service in docker-compose.yml and remove from `depends_on`.
 

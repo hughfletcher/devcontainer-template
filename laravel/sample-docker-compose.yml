@@ -10,7 +10,7 @@ services:
         PHP_VERSION: 8.3
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html:cached
+      - ./src:/var/www/html:cached
     environment:
       - DB_CONNECTION=${DB_CONNECTION:-mysql}
       - DB_HOST=${DB_CONNECTION:-mysql}
@@ -32,7 +32,7 @@ services:
     image: node:20-alpine
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html:cached
+      - ./src:/var/www/html:cached
       - node_modules:/var/www/html/node_modules
     ports:
       - "${VITE_PORT:-5173}:5173"
@@ -108,7 +108,7 @@ services:
     image: mcr.microsoft.com/playwright:v1.40.0-focal
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html:cached
+      - ./src:/var/www/html:cached
     environment:
       - CI=true
     ports:
