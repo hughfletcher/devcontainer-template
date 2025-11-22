@@ -59,6 +59,10 @@ EOF
     echo "Created .devcontainer-config.example for reference"
 fi
 
+# Configure MCP servers for Claude Code
+echo "Configuring MCP servers..."
+claude mcp add context7 npx @upstash/context7 2>/dev/null || echo "Note: Run 'claude mcp add context7 npx @upstash/context7' manually if needed"
+
 echo ""
 echo "DevContainer setup complete!"
 echo "Type 'devhelp' for available commands"
