@@ -4,7 +4,8 @@
     "context": ".",
     "dockerfile": "Dockerfile"
   },
-  "workspaceFolder": "/workspace",
+
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
@@ -22,7 +23,7 @@
     }
   },
 
-  "postCreateCommand": "bash setup.sh",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
 
   "mounts": [
     "source=vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
