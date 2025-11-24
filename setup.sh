@@ -23,6 +23,12 @@ done
 
 echo "Docker is ready!"
 
+# Fix VSCode extensions directory permissions (ensure vscode user owns it)
+if [ -d "$HOME/.vscode-server/extensions" ]; then
+    echo "Fixing VSCode extensions directory permissions..."
+    sudo chown -R vscode:vscode "$HOME/.vscode-server" 2>/dev/null || true
+fi
+
 # Install Claude Code CLI if not already installed
 if ! command -v claude &> /dev/null; then
     echo "Installing Claude Code CLI..."

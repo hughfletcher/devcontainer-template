@@ -1,10 +1,10 @@
 # Universal DevContainer Template
 
-A modular, framework-specific DevContainer that provides an isolated Docker-in-Docker environment for development projects. Choose your framework (Laravel, Django, Next.js, etc.) and get pre-configured commands and tooling.
+A modular, framework-specific DevContainer that provides an isolated Docker-in-Docker environment for development projects. Modularized framework options(only Laravel currently) to get pre-configured commands and tooling.
 
 ## Key Features
 
-- **Framework-Specific Modules**: Load Laravel, Django, or other framework helpers on demand
+- **Framework-Specific Modules**: Load Laravel, maybe Django, or other future framework helpers on demand
 - **Claude Code Integrated**: AI-assisted development out of the box
 - **Docker-in-Docker**: Complete isolation with nested container support
 - **VS Code Integration**: Full Remote-Containers support with port forwarding
@@ -29,7 +29,6 @@ DEVCONTAINER_FRAMEWORK=laravel
 
 Available frameworks:
 - `laravel` - Laravel-specific commands (artisan, composer, test, etc.)
-- More coming soon (django, nextjs, rails, etc.)
 
 ### 3. Open in VS Code
 
@@ -220,6 +219,22 @@ dcps              # Verify they're running
 ### Port forwarding issues
 
 VS Code automatically forwards ports. Check the "Ports" tab in the terminal panel.
+
+### Can't install VSCode extensions?
+
+If extensions won't install or built-in features (like Markdown Preview) aren't working:
+
+**Cause:** The `vscode-extensions` Docker volume may have incorrect permissions from a previous container.
+
+**Fix:** Rebuild the container:
+```bash
+# In VS Code: F1 → "Dev Containers: Rebuild Container"
+```
+
+The setup script will automatically fix permissions. If the issue persists, you can manually fix it from the host:
+```bash
+docker exec -u root CONTAINER_NAME chown -R vscode:vscode /home/vscode/.vscode-server/
+```
 
 ## Helper Commands
 
