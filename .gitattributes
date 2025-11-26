@@ -1,0 +1,28 @@
+# Enforce Unix line endings for shell scripts on all platforms
+*.sh text eol=lf
+
+# Ensure bash scripts in any location use LF
+**/.bashrc text eol=lf
+**/bashrc text eol=lf
+
+# Dockerfile should also use LF
+Dockerfile text eol=lf
+*.dockerfile text eol=lf
+
+# Default behavior for all text files
+* text=auto
+
+# Force LF for common config files
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.env* text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# YAML files
+*.yml text eol=lf
+*.yaml text eol=lf

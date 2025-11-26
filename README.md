@@ -151,6 +151,80 @@ The following MCP servers are pre-installed and configured:
 
 MCP servers are automatically configured during container setup.
 
+## Customizing VSCode Extensions
+
+You can add framework-specific or project-specific VSCode extensions to your devcontainer by editing the `devcontainer.json` file.
+
+### Finding Extension IDs
+
+**Method 1: From VSCode Marketplace**
+1. Visit https://marketplace.visualstudio.com/vscode
+2. Search for your extension
+3. The extension ID is shown in the URL and on the extension page (format: `publisher.extension-name`)
+
+**Method 2: From Installed Extensions**
+1. Open VSCode Extensions panel (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+2. Right-click on an installed extension
+3. Select "Copy Extension ID"
+
+**Method 3: From Command Line**
+```bash
+code --list-extensions  # List all installed extension IDs
+```
+
+### Adding Extensions
+
+Edit `devcontainer.json` and add extensions to the `extensions` array:
+
+```json
+{
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",           // PHP IntelliSense
+        "amiralizadeh9480.laravel-extra-intellisense",   // Laravel helpers
+        "recca0120.vscode-phpunit",                      // PHPUnit testing
+        "ms-python.python",                               // Python
+        "dbaeumer.vscode-eslint"                         // ESLint
+      ]
+    }
+  }
+}
+```
+
+### Common Extension IDs by Language/Framework
+
+**PHP/Laravel:**
+- `bmewburn.vscode-intelephense-client` - PHP IntelliSense
+- `amiralizadeh9480.laravel-extra-intellisense` - Laravel auto-complete
+- `recca0120.vscode-phpunit` - PHPUnit test runner
+- `onecentlin.laravel-blade` - Blade template syntax
+
+**Python/Django:**
+- `ms-python.python` - Python language support
+- `ms-python.vscode-pylance` - Python IntelliSense
+- `ms-python.debugpy` - Python debugging
+- `batisteo.vscode-django` - Django template support
+
+**JavaScript/Node:**
+- `dbaeumer.vscode-eslint` - ESLint
+- `esbenp.prettier-vscode` - Prettier code formatter
+- `christian-kohler.npm-intellisense` - NPM auto-complete
+
+**Docker:**
+- `ms-azuretools.vscode-docker` - Docker support
+
+**Database:**
+- `mtxr.sqltools` - SQL client
+- `cweijan.vscode-mysql-client2` - MySQL client
+
+### Best Practices
+
+1. **Keep the template generic** - Only add framework-specific extensions to your project-specific copy
+2. **Comment your additions** - Help other developers understand what each extension does
+3. **Test after adding** - Rebuild the container to ensure extensions install correctly
+4. **Group by purpose** - Organize extensions by language, framework, or tool type
+
 ## Creating New Framework Modules
 
 Want to add support for Django, Rails, or Next.js?
